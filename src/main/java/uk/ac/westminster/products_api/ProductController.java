@@ -1,15 +1,43 @@
 package uk.ac.westminster.products_api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import uk.ac.westminster.products_api.Product;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/products")
 public class ProductController {
-    @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-        return new Product(id, "Laptop", 999.99);
+
+    @Autowired
+    private ProductService productService;
+
+    // GET - All products
+    @GetMapping("/products")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    // GET - Product by ID
+    @GetMapping("/products/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.getProductById(id).orElse(null);
+    }
+
+    // POST - Create product
+    @PostMapping("/products")
+    public Product addProduct(@RequestBody Product product) {
+        return productService.addProduct(product);
+    }
+
+    // DELETE - Remove product
+    @DeleteMapping("/products/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+
+    // GET - Search products
+    @GetMapping("/products/search")
+    public List<Product> searchProducts(@RequestParam String name) {
+        return productService.findByName(name);
     }
 }

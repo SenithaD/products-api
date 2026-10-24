@@ -11,6 +11,25 @@ public class ProductService {
     private List<Product> products = new ArrayList<>();
     private Long nextId = 1L;
 
+    // Activity 10 - Add DigitalProduct and PhysicalProduct
+    public ProductService() {
+
+        addProduct(new DigitalProduct(
+                null,
+                "Java E-Book",
+                1500.0,
+                "https://example.com/book.pdf"
+        ));
+
+        addProduct(new PhysicalProduct(
+                null,
+                "Laptop",
+                150000.0,
+                2.5,
+                "35x25x2 cm"
+        ));
+    }
+
     public List<Product> getAllProducts() {
         return products;
     }
